@@ -14,6 +14,7 @@ import {MessagesNgModule} from './messages';
 import {MenuNgModule} from './menu';
 import {SettingsNgModule} from './settings';
 import { DateNgModule } from './bjs/index';
+import { DateValidationService } from './bjs/dateValidation.service';
 
 // This URL handling strategy is custom and application-specific.
 // Using it we can tell the Angular 2 router to handle only URL starting with settings.
@@ -48,7 +49,8 @@ export class RootCmp {}
     RouterModule.forRoot([])
   ],
   providers: [
-    { provide: UrlHandlingStrategy, useClass: Ng1Ng2UrlHandlingStrategy }
+    { provide: UrlHandlingStrategy, useClass: Ng1Ng2UrlHandlingStrategy },
+      DateValidationService
   ],
 
   bootstrap: [RootCmp],

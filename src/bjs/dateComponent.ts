@@ -5,8 +5,9 @@
  * @author Florian Popa <florian@webgenerals.com>
  */
 
+import { IDateValidationService } from './dateValidation.service';
 
-interface IInputModel {
+export interface IInputModel {
 	year: number;
 	month: number;
 	day: number;
@@ -14,13 +15,17 @@ interface IInputModel {
 
 interface IDateComponentController extends angular.IComponentController {
 	initializeDate(): void;
+	updateModel(): void;
 }
 
 class DateComponentController implements IDateComponentController {
 
 	public inputModel: IInputModel;
+	public isValid: boolean;
 
-	constructor() {}
+	constructor(
+		private DateValidationService: IDateValidationService
+	) {}
 
 	public $onInit = () => {
 		this.initializeDate();
@@ -33,12 +38,17 @@ class DateComponentController implements IDateComponentController {
 			day: 27,
 		};
 	}
+
+	public updateModel(): void {
+		this.isValid = this.DateValidationService.validate(this.inputModel);
+	}
 }
 
 export const DateComponent = {
 	template: `
-		<div class="container">
+		<div class="container" style="margin-top: 100px;">
 			<div class="col-md-6 col-md-offset-3">
+				<pre>Is valid: {{ $ctrl.isValid }}</pre>
 				<ng-form name="dateComponentForm">
 					<div class="row">
 						<div class="form-group col-md-2">
@@ -49,6 +59,7 @@ export const DateComponent = {
 					                ng-model="$ctrl.inputModel.day"
 					                class="form-control"
 					                placeholder="dd"
+					                ng-change="$ctrl.updateModel()"
 					        >
 					    </div>
 					
@@ -64,6 +75,7 @@ export const DateComponent = {
 					                ng-model="$ctrl.inputModel.month"
 					                class="form-control"
 					                placeholder="mm"
+					                ng-change="$ctrl.updateModel()"
 					        >
 					    </div>
 					
@@ -79,6 +91,7 @@ export const DateComponent = {
 					                ng-model="$ctrl.inputModel.year"
 					                class="form-control"
 					                placeholder="yyyy"
+					                ng-change="$ctrl.updateModel()"
 					        >
 					    </div>
 					</div>
