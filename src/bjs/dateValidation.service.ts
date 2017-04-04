@@ -9,14 +9,13 @@ import { Injectable } from '@angular/core';
 import { IInputModel } from './dateComponent';
 
 export interface IDateValidationService {
-	validate(inputModel: IInputModel): boolean;
+	validate(date: Date): boolean;
 }
 
 @Injectable()
 export class DateValidationService implements IDateValidationService {
 
-	public validate(inputModel: IInputModel): boolean {
-		let date: Date = new Date(inputModel.year, inputModel.month, inputModel.day);
+	public validate(date: Date): boolean {
 		if (date) {
 			return true;
 		} else {

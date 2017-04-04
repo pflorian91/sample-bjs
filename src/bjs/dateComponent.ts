@@ -6,6 +6,7 @@
  */
 
 import { IDateValidationService } from './dateValidation.service';
+import { IDateAdapterService } from './dateAdapter.service';
 
 export interface IInputModel {
 	year: number;
@@ -22,9 +23,11 @@ class DateComponentController implements IDateComponentController {
 
 	public inputModel: IInputModel;
 	public isValid: boolean;
+	public date: Date;
 
 	constructor(
-		private DateValidationService: IDateValidationService
+		private DateValidationService: IDateValidationService,
+		private DateAdapterService: IDateAdapterService
 	) {}
 
 	public $onInit = () => {
@@ -40,7 +43,8 @@ class DateComponentController implements IDateComponentController {
 	}
 
 	public updateModel(): void {
-		this.isValid = this.DateValidationService.validate(this.inputModel);
+		this.date = this.DateAdapterService.parseInputToDate(this.inputModel);
+		this.isValid = this.DateValidationService.validate(this.date);
 	}
 }
 
@@ -48,6 +52,7 @@ export const DateComponent = {
 	template: `
 		<div class="container" style="margin-top: 100px;">
 			<div class="col-md-6 col-md-offset-3">
+				<pre>Date: {{ $ctrl.date.toString() }}</pre>
 				<pre>Is valid: {{ $ctrl.isValid }}</pre>
 				<ng-form name="dateComponentForm">
 					<div class="row">

@@ -11,10 +11,13 @@ import {NgModule} from '@angular/core';
 import { DateComponent } from './dateComponent';
 import { DateValidationService } from './dateValidation.service';
 import { downgradeInjectable } from '@angular/upgrade/src/aot/downgrade_injectable';
+import { DateAdapterService } from './dateAdapter.service';
 
 export const DateModule = angular.module('DateModule', ['ngRoute']);
 
 DateModule.factory('DateValidationService', downgradeInjectable(DateValidationService));
+
+DateModule.service('DateAdapterService', DateAdapterService);
 
 DateModule.component('dateComponent', DateComponent);
 DateModule.config(($routeProvider) => {
